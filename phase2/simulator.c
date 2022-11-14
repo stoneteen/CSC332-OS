@@ -54,7 +54,7 @@ void* msleep(void* args) {
 	double millisecond = *((double*)args);
 	char dummy[100];
 	double start_time = accessTimer(LAP_TIMER, dummy);
-	whiel(1000 * (accessTimer(LAP_TIMER, dummy) - start_time) <= millisecond);
+	while(1000 * (accessTimer(LAP_TIMER, dummy) - start_time) <= millisecond);
 	return NULL;
 }
 
@@ -86,8 +86,8 @@ Postcondition: currently , none
 Exceptions: none
 Notes: none
 */
-Boolean mem_alloca_fuync(int dummy1, int dummy2) {
-	return true;
+Boolean mem_alloca_func(int dummy1, int dummy2) {
+	return True;
 }
 
 /*
@@ -98,7 +98,7 @@ Postcondition: currently, noneExceptions: none
 Notes : none
 */
 Boolean mem_access_func(int dummy) {
-	return true;
+	return True;
 }
 
 /*
@@ -109,15 +109,15 @@ Postcondition: Provide whether should go further running
 Exceptions: none
 Notes: none
 */
-Boolean runProcess(process_t* current_process, ConfigDataType* configDataType) {
+Boolean runProcess(process_t* current_process, ConfigDataType* ConfigDataType) {
 	//if it is system end,then stop running
 	if (current_process->end_flag == 1) {
-		output("OS:System stop", configDataType);
-		return false;
+		output("OS:System stop", ConfigDataType);
+		return False;
 	}
 	//for system start, just go on running
 	if (current_process->start_flag == 1) {
-		return true;
+		return True;
 	}
 	int i;
 	//set state
@@ -130,12 +130,12 @@ Boolean runProcess(process_t* current_process, ConfigDataType* configDataType) {
 			//app start
 			if (current_process->execution_flow[i].strArgs1 == START) {
 				timer(current_process->execution_flow[i].intArg2 *
-					configDataType->quantumCycles);
+					ConfigDataType->quantumCycles);
 				//create the output message char array
 				char* value = (char*)malloc(sizeof(char) * 1000);
 				sprintf(value, "OS: Process %d set to RUNNING state from READY state",
 					running_process_identifier);
-				output(value, configDataType);
+				output(value, ConfigDataType);
 				//after output,free it
 				free(value);
 				//set process state
@@ -144,12 +144,12 @@ Boolean runProcess(process_t* current_process, ConfigDataType* configDataType) {
 			else if (current_process->execution_flow[i].strArgs1 == END) {
 				//app end
 				timer(current_process->execution_flow[i].intArg2 *
-					configDataType->quantumCycles);
+					ConfigDataType->quantumCycles);
 				//craete the ouput message char array and free it after output
 				char* value = (char*)malloc(sizeof(char) * 1000);
 				sprintf(value, "OS: Process %d set to EXITED state from RUNNING state.",
 					running_process_identifier);
-				output(value, configDataType);
+				output(value, ConfigDataType);
 				free(value);
 				running_process_identifier++;
 				current_process->state = PROCESS_STATE_END;
@@ -161,43 +161,44 @@ Boolean runProcess(process_t* current_process, ConfigDataType* configDataType) {
 			char* value = (char*)malloc(sizeof(char) * 1000);
 			sprintf(value, "Process: %d device input %s start, time: %d ms.",
 				running_process_identifier, current_process->execution_flow[i].origin->strArg1,
-				current_process->execution_flow[i], intArg2 * configDataType->quantumCycles *
-				configDataType->ioCycleRate);
+				current_process->execution_flow[i].intArg2 * ConfigDataType->quantumCycles *
+				ConfigDataType->ioCycleRate);
 			output(value, ConfigDataType);
 
-			timer(current_process->execution_flow[i].intArg2 * configDataType->quantumCycles *
-				configDataType->ioCycleRate);
+			timer(current_process->execution_flow[i].intArg2 * ConfigDataType->quantumCycles *
+				ConfigDataType->ioCycleRate);
 			sprintf(value, "Process: %d device input %s end.", running_process_identifier,
 				current_process->execution_flow[i].origin->strArg1);
-			output(value, configDataType);
+			output(value, ConfigDataType);
 			free(value);
 			break;
 		}
 		case DEVOUT: {
 			//create the output message char array and free it after output
 			char* value = (char*)malloc(sizeof(char) * 1000);
-			sprintf(value, "Process: %d device output %s start, time: %d ms.".
+			sprintf(value, "Process: %d device output %s start, time: %d ms.",
 				running_process_identifier, current_process->execution_flow[i].origin->strArg1,
-				current_process->execution_flow[i].intArg2 * configDataType->quantumCycles *
+				current_process->execution_flow[i].intArg2 * ConfigDataType->quantumCycles *
 				ConfigDataType->ioCycleRate);
-			output(value, configDataType);
+			output(value, ConfigDataType);
 
-			timer(current_process->execution_flow[i].intArg2 * configDataType->quantumCycles *
-				configDataType->ioCycleRate);
+			timer(current_process->execution_flow[i].intArg2 * ConfigDataType->quantumCycles *
+				ConfigDataType->ioCycleRate);
 			sprintf(value, "Process: %d device output %s end.", running_process_identifier,
 				current_process->execution_flow[i].origin->strArg1);
-			output(value, configDateType);
+			output(value, ConfigDataType);
 			free(value);
 			break;
 		}
 		case CPU: {
-			// create the output message char arrayand free it after outputchar* value = (char*)malloc(sizeof(char) * 1000);
+			// create the output message char arrayand free it after output
+            char* value = (char*)malloc(sizeof(char) * 1000);
 			sprintf(value, "Process: %d CPU Process,time: %d ms.", running_process_identifier,
-				current_process->execution_flow[i].intArg2 * configDataType->quantumCycles);
-			output(value, configDataType);
-			timer(current_process->execution_flow[i].intArg2 * configDataType->quantumCycles);
+				current_process->execution_flow[i].intArg2 * ConfigDataType->quantumCycles);
+			output(value, ConfigDataType);
+			timer(current_process->execution_flow[i].intArg2 * ConfigDataType->quantumCycles);
 			sprintf(value, "Process: %d CPU Process end.", running_process_identifier);
-			output(value, configDataType);
+			output(value, ConfigDataType);
 			free(value);
 			break;
 		}
@@ -205,10 +206,10 @@ Boolean runProcess(process_t* current_process, ConfigDataType* configDataType) {
 			if (current_process->execution_flow[i].strArgs1 == ALLOCATE) {
 				// create the output message char arrayand free it after output
 				char* value = (char*)malloc(sizeof(char) * 1000);
-				sprintf(value, "Process: %d Memory allocation from %d to %d . ",
-					running_process_identifier, current_process->execution_flow[i].intArg2,
+				sprintf(value, "Process: %d Memory allocation from %d to %d.",
+					running_process_identifier,current_process->execution_flow[i].intArg2,
 					current_process->execution_flow[i].intArg3);
-				output(value, configDataType);
+				output(value, ConfigDataType);
 				// check whether allocation area can be allocated
 				Boolean result = mem_alloca_func(current_process->execution_flow[i].intArg2,
 					current_process->execution_flow[i].intArg3);
@@ -219,7 +220,7 @@ Boolean runProcess(process_t* current_process, ConfigDataType* configDataType) {
 				else sprintf(value, "Process: %d Memory allocation from %d to %d failed.",
 					running_process_identifier, current_process->execution_flow[i].intArg2,
 					current_process->execution_flow[i].intArg3);
-				output(value, configDataType);
+				output(value, ConfigDataType);
 				free(value);
 				break;
 			}
@@ -228,19 +229,19 @@ Boolean runProcess(process_t* current_process, ConfigDataType* configDataType) {
 				char* value = (char*)malloc(sizeof(char) * 1000);
 				sprintf(value, "Process: %d Memory access to %d. ", running_process_identifier,
 					current_process->execution_flow[i].intArg2);
-				output(value, configDataType);
+				output(value, ConfigDataType);
 				//check whether the psition can be accessed
 				Boolean result = mem_access_func(current_process->execution_flow[i].intArg2);
-				if (result) sprintf(value£¬"Process: %d Memory access to %d success.",
+				if (result) sprintf(value,"Process: %d Memory access to %d success.",
 					running_process_identifier, current_process->execution_flow[i].intArg2);
-				else sprintf(value£¬"Process: %d Memory access to %d failed.",
+				else sprintf(value,"Process: %d Memory access to %d failed.",
 					running_process_identifier, current_process->execution_flow[i].intArg2);
-				output(value, configDataType);
+				output(value, ConfigDataType);
 				free(value);
 				break;
 			}
 		}
-		case SYS:break :
+            case SYS:break;
 		}
 	}
 	return True;
@@ -294,8 +295,8 @@ void runSim(ConfigDataType* configPtr, OpCodeType* metaDataMsterPtr) {
 	//output the simulation start message
 	output("OS: Simulation Start", configPtr);
 	accessTimer(LAP_TIMER, value);
-	//set the running flag to be true
-	Boolean simRun = true;
+	//set the running flag to be True
+	Boolean simRun = True;
 	//malloc the initial process list object and initialize the value to zero
 	process_list = (process_t*)malloc(sizeof(process_t));
 	memset_usr((char*)process_list, sizeof(process_t) / sizeof(char), 0);
@@ -320,7 +321,7 @@ void runSim(ConfigDataType* configPtr, OpCodeType* metaDataMsterPtr) {
 			prevProcess = process_list;
 			// malloc the initial process list objectand initialize the value to zero
 			process_list = (process_t*)malloc(sizeof(process_t));
-			memset_usr((char*)process_list, sizeof(process_t) / sizeof(char)£¬0);
+			memset_usr((char*)process_list, sizeof(process_t) / sizeof(char),0);
 			process_cnt++;
 		}
 		else if (compareString(ptr->command, "app") == 0) {
@@ -337,7 +338,7 @@ void runSim(ConfigDataType* configPtr, OpCodeType* metaDataMsterPtr) {
 				// malloc the initial execution list objectand initialize the value to zero
 				process_list->execution_flow = (executable_t*)malloc(sizeof(executable_t) *
 					(range + 7));
-				memset_usr((char*)process_list->execution_flow, (sizeof(executable_t) * £¨range +
+				memset_usr((char*)process_list->execution_flow, (sizeof(executable_t) * (range +
 					7)) / sizeof(char), 0);
 					// set up the size
 					process_list->exe_size = range;
@@ -366,11 +367,11 @@ void runSim(ConfigDataType* configPtr, OpCodeType* metaDataMsterPtr) {
 							}
 						}
 						else if (compareString(app_ptr->command, "dev") == 0) {
-							if (compareString(app_ptr->inoutArg, "in") == 0) {
+							if (compareString(app_ptr->inOutArg, "in") == 0) {
 								// device in
 								process_list->execution_flow[command_idx].command = DEVIN;
 							}
-							else if (comparestring(app_ptr->inOutArg, "out") == 0) {
+							else if (compareString(app_ptr->inOutArg, "out") == 0) {
 								// device out
 								process_list->execution_flow[command_idx].command = DEVOUT;
 							}

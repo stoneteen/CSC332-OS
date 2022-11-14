@@ -34,7 +34,7 @@ int main(int argc, char** argv) {
 
 	char fileName[STD_STR_LEN];
 
-	char erroMessage[MAX_STR_LEN];
+	char errorMessage[MAX_STR_LEN];
 
 	ConfigDataType* configDataPtr = NULL;
 
@@ -63,7 +63,7 @@ int main(int argc, char** argv) {
 	fileName[0] = NULL_CHAR;
 
 	//loop across args(starting at 1) and program runflag
-	while (programRunFlag == false && argIndex < argc)
+	while (programRunFlag == False && argIndex < argc)
 	{
 		//find length to vertify file name
 		//function:getStringLength,findSubString
@@ -74,26 +74,26 @@ int main(int argc, char** argv) {
 		//function:compareString
 		if (compareString(argv[argIndex], "-dc") == STR_EQ) {
 			//set config upload flag
-			configUploadFlag = true;
+			configUploadFlag = True;
 
 			//set config display flag
-			configDisplayFlag = true;
+			configDisplayFlag = True;
 		}
 		// otherwise, check for -dm (display metadata flag)
 		// function: compareString
 		else if (compareString(argv[argIndex], "-dm") == STR_EQ) {
 			//set config upload flag
-			configUploadFlag = true;
+			configUploadFlag = True;
 			//set meta data display flag
-			mdDisplayFlag = true;
+			mdDisplayFlag = True;
 		}
 		//otherwise, check for -rs(run simulator)
 		// function:compareString
 		else if (compareString(argv[argIndex], "-rs") == STR_EQ) {
 			//set config upload flag
-			configUploadFlag = true;
+			configUploadFlag = True;
 			//set run simulator flag
-			runSimFlag = true;
+			runSimFlag = True;
 		}
 		//otherwise,check for file name, ending in .cnf
 		//must be last flag
@@ -111,7 +111,7 @@ int main(int argc, char** argv) {
 	//end loop
 
 	//check for command line failure
-	if (programRunFlag == False && inforFlag == false) {
+	if (programRunFlag == False && inforFlag == False) {
 		// show error message,end program
 		// function printf
 		printf("Incorrect argument line format, program aborted\n\n");
@@ -121,10 +121,10 @@ int main(int argc, char** argv) {
 	}
 
 	//check for program run and config upload flag
-	if (programRunFlag == true && configUploadFlag == true) {
+	if (programRunFlag == True && configUploadFlag == True) {
 		//upload config file,check for success
 		//function: getStringLength, getConfigData
-		if (getStringLength(fileName) > 0 && getConfigData(fileName, &configDataPtr, errorMessage) == true) {
+		if (getStringLength(fileName) > 0 && getConfigData(fileName, &configDataPtr, errorMessage) == True) {
 			//check config dispaly flag
 			if (configDisplayFlag == True) {
 				//display config data
@@ -145,18 +145,18 @@ int main(int argc, char** argv) {
 	}
 
 	// check for program run flag
-	if (programRunFlag == True && (mdDisplayFlag == True || runSimFlag == true)) {
+	if (programRunFlag == True && (mdDisplayFlag == True || runSimFlag == True)) {
 		//upload meta data file,check for success
 		//function:getmatadata
 		if (getMetaData(configDataPtr->metaDataFileName, &metaDataPtr, errorMessage) == True) {
 			//check meta data display flag
-			if (mdDisplayFlag == true) {
+			if (mdDisplayFlag == True) {
 				//display meta data
 				//function: displayMetaData
 				displayMetaData(metaDataPtr);
 			}
 			//check run simulator flag
-			if (runSimFlag == true) {
+			if (runSimFlag == True) {
 				//run simulator
 				//function: runSim
 				runSim(configDataPtr, metaDataPtr);

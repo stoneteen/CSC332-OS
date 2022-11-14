@@ -8,13 +8,13 @@
 #include "configops.h"
 
 typedef enum command_list {
-	SYS, APP, DEVI, DEVOUT, CPU, EME
+	SYS, APP, DEVIN, DEVOUT, CPU, MEM
 }command_t;
 
 typedef enum string_args_list {
-	START, END, PROCESS, ALLOCATE, ACCESS, ETHERNET, HDD, KEYBOARD, MONITOR, SERIAL, SOULD_SIGNAL,
+	START, END, PROCESS, ALLOCATE, ACCESS, ETHERNET, HDD, KEYBOARD, MONITOR, SERIAL, SOUND_SIGNAL,
 	USB, VIDEO_SIGNAL
-}sring_args_t;
+}string_args_t;
 
 
 typedef struct executable {
@@ -31,7 +31,7 @@ typedef struct executable {
 
 typedef struct process {
 	struct process* next;
-	exetutable_t* execution_flow;
+	executable_t* execution_flow;
 	int exe_size;
 	int start_flag, end_flag;
 	int state;

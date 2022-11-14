@@ -88,7 +88,7 @@ void copyString(char* destination, char* source)
  Device Output/Monitor: none
  Dependencies: getStringLength
  */
-void concatenateString(char* destination, const char* source)
+void concatenateString(char* destination, char* source)
 {
     // initialize function/variables
 
@@ -327,15 +327,15 @@ Device output/Monitor: noneDependencies: none
 char setCharToLowerCase(char inputChar)
 {
     // check for upper case letter
-    if (testChar >= 'A' && testChar <= 'Z')
+    if (inputChar >= 'A' && inputChar <= 'Z')
     {
         // return lower case letter
-        testChar = testChar - 'A' + 'a';
+        inputChar = inputChar - 'A' + 'a';
     }
 
     // otherwise, assume no upper case letter, 
     // return character unchaged
-    return testChar;
+    return inputChar;
 }
 
 int getLineTo(FILE* filePtr, int bufferSize, char stopChar, char* buffer,

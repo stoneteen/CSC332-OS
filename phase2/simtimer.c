@@ -44,7 +44,7 @@ void runTimer(int milliSeconds) {
 		gettimeofday(&endTime, NULL);
 
 		endSec = endTime.tv_sec;
-		endUSec = endTime.tv_used;
+		endUSec = endTime.tv_usec;
 		uSecDiff = endUSec - startUSec;
 
 		if (uSecDiff < 0) {
@@ -58,8 +58,8 @@ void runTimer(int milliSeconds) {
 }
 
 double accessTimer(int controlCode, char* timeStr) {
-	static Boolean running = false;
-	static int startSec = 0, endSec = 0, startUsec = 0, endUSec = 0;
+	static Boolean running = False;
+	static int startSec = 0, endSec = 0, startUSec = 0, endUSec = 0;
 	static int lapSec = 0, lapUSec = 0;
 	struct timeval startData, lapData, endData;
 	double fpTime = 0.0;
@@ -70,7 +70,7 @@ double accessTimer(int controlCode, char* timeStr) {
 		running = True;
 
 		startSec = startData.tv_sec;
-		startUsec = startData.tv_usec;
+		startUSec = startData.tv_usec;
 
 		fpTime = 0.000000000;
 		lapSec = 0.000000000;
@@ -80,11 +80,11 @@ double accessTimer(int controlCode, char* timeStr) {
 		break;
 
 	case LAP_TIMER:
-		if (running == true) {
+		if (running == True) {
 			gettimeofday(&lapData, NULL);
 
 			lapSec = lapData.tv_sec;
-			lapUsec = lapData.tv_usec;
+			lapUSec = lapData.tv_usec;
 
 			fpTime = processTime(startSec, lapSec, startUSec, lapUSec, timeStr);
 		}
@@ -95,12 +95,12 @@ double accessTimer(int controlCode, char* timeStr) {
 		break;
 		
 	case STOP_TIMER:
-		if (running == true) {
+		if (running == True) {
 			gettimeofday(&endData, NULL);
-			running = false;
+			running = False;
 
 			endSec = endData.tv_sec;
-			endUsec = endData.tv_usec;
+			endUSec = endData.tv_usec;
 
 			fpTime = processTime(startSec, endSec, startUSec, endUSec, timeStr);
 		}
