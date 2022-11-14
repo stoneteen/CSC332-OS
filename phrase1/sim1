@@ -1,0 +1,26 @@
+CC = gcc
+DEBUG = -g
+CFLAGS = -Wall -std=c99 -pedantic -c  $(DEBUG)
+LFLAGS = -Wall -std=c99 -pedantic  $(DEBUG)
+
+sim01 : main.o StringUtils.o metadataops.o configops.o runSim.o
+	$(CC)  $(LFLAGS) main.o StringUtils.o metadataops.o configops.o runSim.o -o sim01
+
+main.o : main.c
+	$(CC)  $(CFLAGS) main.c
+
+StringUtils.o : StringUtils.c StringUtils.h
+	$(CC)  $(CFLAGS) StringUtils.c
+
+metadataops.o : metadataops.c metadataops.h
+	$(CC)   $(CFLAGS) metadataops.c
+
+configops.o : configops.c configops.h
+	$(CC)  $(CFLAGS) configops.c
+
+runSim.o : runSim.c runSim.h
+	$(CC)  $(CFLAGS) runSim.c
+
+clean:
+	\rm *.o sim01
+
